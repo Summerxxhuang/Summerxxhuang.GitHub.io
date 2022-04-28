@@ -1,4 +1,4 @@
-这个网站是用来存放我的markdown笔记，利用GitHub Pages搭建
+summer's学习笔记
 
 [markdown模板](_posts/2022-4-28-markdown.md)
 
