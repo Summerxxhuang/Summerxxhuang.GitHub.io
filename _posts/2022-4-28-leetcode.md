@@ -86,8 +86,7 @@
         return 0<=r && r<grid.size() && 0<=c && c<grid[0].size();
     }
   
-  ```c++
-  
+  ```
   
   695.岛屿的最大面积(medium)
   
