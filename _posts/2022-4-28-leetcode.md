@@ -9,8 +9,8 @@
   网格化可以看做二叉树往四个方向遍历，结束条件是否越界
   
   463.岛屿的周长（easy）
+  
   岛屿周长dfs 函数因为「坐标 (i, j) 超出网格范围」返回的时候，经过的边+1；而当函数因为「当前格子是海洋格子」返回的时候，经过的边+1。
-  ···c++
 
     int islandPerimeter(vector<vector<int>>& grid) {
         for(int i=0;i<grid.size();i++){
@@ -47,8 +47,9 @@
   ···
   
   200.岛屿数量(medium)
+  
   避免重复遍历：将走过的格子置为2
-  ···c++
+  
     int numIslands(vector<vector<char>>& grid) {
         int count=0;
         for(int i=0;i<grid.size();i++){
@@ -83,11 +84,12 @@
         return 0<=r && r<grid.size() && 0<=c && c<grid[0].size();
     }
 
-  ···
+  
   
   695.岛屿的最大面积(medium)
+  
   每遍历到一个格子，就把面积加一
-  ···c++
+  
     int maxAreaOfIsland(vector<vector<int>>& grid) {
         int res=0;
         for(int i=0;i<grid.size();i++){
@@ -117,6 +119,5 @@
         return 0<=r && r<grid.size() && 0<=c && c<grid[0].size();
     }
 
-  ···
   
   827.最大人工岛(hard)-待补
