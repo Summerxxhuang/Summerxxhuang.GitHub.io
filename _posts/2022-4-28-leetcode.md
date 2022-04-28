@@ -85,6 +85,7 @@
     bool isinArea(vector<vector<char>>& grid,int r,int c){
         return 0<=r && r<grid.size() && 0<=c && c<grid[0].size();
     }
+  
   ```c++
   
   
@@ -92,6 +93,7 @@
   
   每遍历到一个格子，就把面积加一
   
+  ```c++
     int maxAreaOfIsland(vector<vector<int>>& grid) {
         int res=0;
         for(int i=0;i<grid.size();i++){
@@ -120,6 +122,7 @@
     bool isArea(vector<vector<int>>& grid,int r,int c){
         return 0<=r && r<grid.size() && 0<=c && c<grid[0].size();
     }
-
+  
+  ```
   
   827.最大人工岛(hard)-待补
