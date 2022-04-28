@@ -2,8 +2,7 @@
 
 ***
   
-# 2020-4-28
-# 网格dfs-岛屿问题的通用解法
+# 2020-4-28     网格dfs-岛屿问题的通用解法
   https://leetcode-cn.com/problems/number-of-islands/solution/dao-yu-lei-wen-ti-de-tong-yong-jie-fa-dfs-bian-li-/
   
   网格化可以看做二叉树往四个方向遍历，结束条件是否越界
