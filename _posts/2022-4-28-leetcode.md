@@ -51,6 +51,7 @@
   
   避免重复遍历：将走过的格子置为2
   
+  ```c++
     int numIslands(vector<vector<char>>& grid) {
         int count=0;
         for(int i=0;i<grid.size();i++){
@@ -84,7 +85,7 @@
     bool isinArea(vector<vector<char>>& grid,int r,int c){
         return 0<=r && r<grid.size() && 0<=c && c<grid[0].size();
     }
-
+  ```c++
   
   
   695.岛屿的最大面积(medium)
