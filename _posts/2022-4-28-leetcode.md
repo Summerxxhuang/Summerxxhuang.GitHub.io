@@ -127,7 +127,9 @@
   827.最大人工岛(hard)-待补
   
   
-# 2020-4-29     avl树（高度平衡树）首先是一颗二叉搜索树，其次每个节点的左右子树高度差不超过1
+# 2020-4-29     二叉平衡树、avl树（高度平衡树）
+  
+  首先是一颗二叉搜索树，其次每个节点的左右子树高度差不超过1
   
   108. 将有序数组转换为二叉搜索树
   
@@ -177,6 +179,53 @@
         return root;
     }
   
+  ```
+  
+  99.恢复二叉搜索树
+  
+  方法一：先把二叉树中序遍历拉成有序数组，找出两处满足ai>ai+1的地方，记为x和y，交换俩节点（法一官解交换的时候需要count没看懂），时间O(N)，空间O(N)
+  
+  方法二：在中序遍历时直接记录下俩异常结点，t1的值会比遍历到的后面一个节点值大，t2的值会比遍历到的前面一个节点值小，时间O(N)，空间O(H)（递归时隐含的栈操作，H为树高度）
+  
+  方法三：Moris中序遍历（待补）
+  
+  需要参数：
+
+  一个前序指针pre指向前一个节点
+  
+  一个记录指针t1记录需要交换的第一个节点
+  
+  一个记录指针t2，在t1确定后记录需要交换的第二个节点
+  
+  ！！！无语了，TreeNode初始化只能这么写，写成TreeNode* t1,t2=nullptr;不行
+  
+  写成TreeNode* t1=nullptr,t2=nullptr;不行
+  
+  写TreeNode* t1=new TreeNode(-1)也不行（会将初始值置-1影响后面结果）
+  
+  ```c++
+      TreeNode* t1=nullptr;
+    TreeNode* t2=nullptr;
+    TreeNode* pre=nullptr;
+    void recoverTree(TreeNode* root) {
+        inOrder(root);
+        swap(t1->val,t2->val);
+    }
+
+    void inOrder(TreeNode* root){
+        if(root==nullptr){
+            return;
+        }
+        inOrder(root->left);
+        if(pre!=nullptr && root->val < pre->val){
+            if(t1==nullptr){
+                t1=pre;
+            }
+            t2=root;
+        }
+        pre=root;
+        inOrder(root->right);
+    }
   ```
   
   
