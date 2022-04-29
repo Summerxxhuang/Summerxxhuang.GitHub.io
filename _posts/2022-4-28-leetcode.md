@@ -127,9 +127,9 @@
   827.最大人工岛(hard)-待补
   
   
-# 2020-4-29     二叉平衡树、avl树（高度平衡树）
+# 2020-4-29     二叉搜索树、avl树
   
-  首先是一颗二叉搜索树，其次每个节点的左右子树高度差不超过1
+  二叉搜索树与中序遍历高度相关；avl（高度平衡）树首先是一颗二叉搜索树，其次每个节点的左右子树高度差不超过1，左旋右旋？（待补）
   
   108. 将有序数组转换为二叉搜索树
   
@@ -204,7 +204,7 @@
   写TreeNode* t1=new TreeNode(-1)也不行（会将初始值置-1影响后面结果）
   
   ```c++
-      TreeNode* t1=nullptr;
+    TreeNode* t1=nullptr;
     TreeNode* t2=nullptr;
     TreeNode* pre=nullptr;
     void recoverTree(TreeNode* root) {
