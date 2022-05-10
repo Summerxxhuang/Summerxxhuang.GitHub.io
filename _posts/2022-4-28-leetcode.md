@@ -307,30 +307,29 @@
   
   ```c++
   int postIndex;
-    unordered_map<int,int> indexMap;
-    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        postIndex=(int)postorder.size()-1;
-        //indexMap[i]=inorder[i]行不通
-        for(int i=0;i<inorder.size();i++){
-            indexMap[inorder[i]]=i;
-        }
-    
-        return helper(0,(int)inorder.size()-1,inorder,postorder);
-    }
+  unordered_map<int,int> indexMap;
+  TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+      postIndex=(int)postorder.size()-1;
+      //indexMap[i]=inorder[i]行不通
+      for(int i=0;i<inorder.size();i++){
+          indexMap[inorder[i]]=i;
+      }
+      return helper(0,(int)inorder.size()-1,inorder,postorder);
+  }
 
-    TreeNode* helper(int left,int right,vector<int>& inorder,vector<int>& postorder){
-        if(left>right){
-            return nullptr;
-        }
-        int rootVal=postorder[postIndex];
-        TreeNode* root=new TreeNode(rootVal);
-        int index=indexMap[rootVal];
-        postIndex--;
-        //注意这里有需要先创建右子树，再创建左子树的依赖关系。
-        root->right=helper(index+1,right,inorder,postorder);
-        root->left=helper(left,index-1,inorder,postorder);
-        return root;
-    }
+  TreeNode* helper(int left,int right,vector<int>& inorder,vector<int>& postorder){
+      if(left>right){
+          return nullptr;
+      }
+      int rootVal=postorder[postIndex];
+      TreeNode* root=new TreeNode(rootVal);
+      int index=indexMap[rootVal];
+      postIndex--;
+      //注意这里有需要先创建右子树，再创建左子树的依赖关系。
+      root->right=helper(index+1,right,inorder,postorder);
+      root->left=helper(left,index-1,inorder,postorder);
+      return root;
+  }
   ```
   
   # 2022-5-10 二分法，适用于有序数组
@@ -338,10 +337,9 @@
   704.二分查找 
   
   ```c++
-      int search(vector<int>& nums, int target) {
+    int search(vector<int>& nums, int target) {
         if(nums.size()==0)return -1;
         return binarysearch(nums,target,0,nums.size()-1);
-        
     }
 
     int binarysearch(vector<int>& nums,int target,int left,int right){
@@ -380,6 +378,35 @@
     }
   ```
   
+  33.搜索旋转排序数组 
+  
+  ```c++
+    int search(vector<int>& nums, int target) {
+        if(nums.size()==0) return -1;
+        if(nums.size()==1 && target!=nums[0]) return -1;
+        int left=0,right=nums.size()-1;
+        while(left<=right){
+            int mid=left+(right-left)/2;
+            if(nums[mid]==target){return mid;}
+            //注意等号位置
+            if(nums[left]<=nums[mid]){
+                if(nums[left]<=target && target<nums[mid]){
+                    right=mid-1;
+                }else{
+                    left=mid+1;
+                }
+            }else{
+                if(nums[mid]<target && target<=nums[right]){
+                    left=mid+1;
+                }else{
+                    right=mid-1;
+                }
+            }
+        }
+        return -1;
+    }
+  ```
+  
   81.搜索旋转排序数组II
   
   ```c++
@@ -410,31 +437,4 @@
     }
   ```
   
-  33.搜索旋转排序数组 
-  
-  ```c++
-      int search(vector<int>& nums, int target) {
-        if(nums.size()==0) return -1;
-        if(nums.size()==1 && target!=nums[0]) return -1;
-        int left=0,right=nums.size()-1;
-        while(left<=right){
-            int mid=left+(right-left)/2;
-            if(nums[mid]==target){return mid;}
-            //注意等号位置
-            if(nums[left]<=nums[mid]){
-                if(nums[left]<=target && target<nums[mid]){
-                    right=mid-1;
-                }else{
-                    left=mid+1;
-                }
-            }else{
-                if(nums[mid]<target && target<=nums[right]){
-                    left=mid+1;
-                }else{
-                    right=mid-1;
-                }
-            }
-        }
-        return -1;
-    }
-  ```
+
