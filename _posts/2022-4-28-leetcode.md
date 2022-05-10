@@ -228,13 +228,13 @@
     }
   ```
   
-# 2022-5-9  
+# 2022-5-9  521遗留问题
   
   34.在排序数组中查找元素的第一和最后一个位置
   
   二分法先找target的某个值，再滑动双指针找边界。Watch out边界出界条件！！
   
-    ```c++
+  ```c++
       vector<int> searchRange(vector<int>& nums, int target) {
         int index=binarySearch(0,nums.size()-1,nums,target);
         if (index==-1){
@@ -267,14 +267,11 @@
         }
         return -1;
     }
-  
-  ```
   ```
   
-  79.单词搜索
+  79.单词搜索(回溯法
   
-  类似岛屿问题，但判断出界问题时用&&要判断多个条件会导致超时？改用||一个不满足就叉出去了。也无法先试探后判断，四个方向不循环会导致代码量增大
-  
+  类似岛屿问题，但判断出界问题时用&&要判断多个条件会导致超时？改用"或"一个不满足就叉出去了。也无法先试探后判断，四个方向不循环会导致代码量增大
   
   ```c++
       bool exist(vector<vector<char>>& board, string word) {
@@ -336,4 +333,108 @@
     }
   ```
   
+  # 2022-5-10 二分查找
   
+  704.二分查找 
+  
+  ```c++
+      int search(vector<int>& nums, int target) {
+        if(nums.size()==0)return -1;
+        return binarysearch(nums,target,0,nums.size()-1);
+        
+    }
+
+    int binarysearch(vector<int>& nums,int target,int left,int right){
+        while(left<=right){
+            int mid=left+(right-left)/2;
+            if(nums[mid]>target){
+                right=mid-1;
+            }else if(nums[mid]<target){
+                left=mid+1;
+            }else{
+                return mid;
+            }
+        }
+        return -1;
+    }
+  ```
+                                        
+    374.猜数字大小
+                                        
+  ```c++                                   
+  int guessNumber(int n) {
+        int left=1,right=n;
+        while(left<right){
+            int mid=left+(right-left)/2;
+            int bigorsmall=guess(mid);
+            if(bigorsmall==0){
+                return mid;
+            }else if(bigorsmall>0){
+                left=mid+1;
+            }else{
+                right=mid-1;
+            }
+            
+        }
+        return left;
+    }
+  ```
+  
+  81.搜索旋转排序数组II
+  
+  ```
+  bool search(vector<int>& nums, int target) {
+        if(nums.size()==0) return 0;
+        if(nums.size()==1) return nums[0]==target?1:0;
+        int left=0,right=nums.size()-1;
+        while(left<=right){
+            int mid=left+(right-left)/2;
+            if(nums[mid]==target) return 1;
+            if(nums[left]==nums[mid]){
+                left++;
+            }else if(nums[left]<nums[mid]){
+                if(nums[left]<=target && target<=nums[mid]){
+                    right=mid;
+                }else{
+                    left=mid+1;
+                }
+            }else{
+                if(nums[mid]<=target && target<=nums[right]){
+                    left=mid+1;
+                }else{
+                    right=mid;
+                }
+            }
+        }
+        return 0;
+    }
+    ```
+  
+  33.搜索旋转排序数组 
+  
+  ```c++
+      int search(vector<int>& nums, int target) {
+        if(nums.size()==0) return -1;
+        if(nums.size()==1 && target!=nums[0]) return -1;
+        int left=0,right=nums.size()-1;
+        while(left<=right){
+            int mid=left+(right-left)/2;
+            if(nums[mid]==target){return mid;}
+            //注意等号位置
+            if(nums[left]<=nums[mid]){
+                if(nums[left]<=target && target<nums[mid]){
+                    right=mid-1;
+                }else{
+                    left=mid+1;
+                }
+            }else{
+                if(nums[mid]<target && target<=nums[right]){
+                    left=mid+1;
+                }else{
+                    right=mid-1;
+                }
+            }
+        }
+        return -1;
+    }
+  ```
