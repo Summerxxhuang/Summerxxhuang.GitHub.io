@@ -382,7 +382,7 @@
   
   81.搜索旋转排序数组II
   
-  ```
+  ```c++
   bool search(vector<int>& nums, int target) {
         if(nums.size()==0) return 0;
         if(nums.size()==1) return nums[0]==target?1:0;
@@ -408,7 +408,7 @@
         }
         return 0;
     }
-    ```
+  ```
   
   33.搜索旋转排序数组 
   
