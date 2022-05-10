@@ -2,7 +2,7 @@
 
 ***
   
-# 2020-4-28     网格dfs-岛屿问题的通用解法
+# 2022-4-28     网格dfs-岛屿问题的通用解法
   https://leetcode-cn.com/problems/number-of-islands/solution/dao-yu-lei-wen-ti-de-tong-yong-jie-fa-dfs-bian-li-/
   
   网格化可以看做二叉树往四个方向遍历，结束条件是否越界
@@ -127,7 +127,7 @@
   827.最大人工岛(hard)-待补
   
   
-# 2020-4-29     二叉搜索树、avl树
+# 2022-4-29     二叉搜索树、avl树
   
   二叉搜索树与中序遍历高度相关；avl（高度平衡）树首先是一颗二叉搜索树，其次每个节点的左右子树高度差不超过1，左旋右旋？（待补）
   
@@ -228,5 +228,110 @@
     }
   ```
   
+# 2022-5-9  
+  
+  34.在排序数组中查找元素的第一和最后一个位置
+  
+  二分法先找target的某个值，再滑动双指针找边界。Watch out边界出界条件！！
+  
+    ```c++
+      vector<int> searchRange(vector<int>& nums, int target) {
+        int index=binarySearch(0,nums.size()-1,nums,target);
+        if (index==-1){
+            return {-1,-1};
+        }
+        int left=index,right=index;
+        //先判断越界再移动指针
+        while(left>0 && nums[left-1]==nums[index]){
+            --left;
+        }
+        while(right<nums.size()-1 && nums[right+1]==nums[index]){
+            ++right;
+        }
+        return {left,right};
+    }
+
+    int binarySearch(int left,int right,vector<int>& nums,int target){
+        if(left>right){
+            return -1;
+        }
+        while(left<=right){
+            int mid=left+(right-left)/2;
+            if(nums[mid]==target){
+                return mid;
+            }else if(nums[mid]>target){
+                right=mid-1;
+            }else{
+                left=mid+1;
+            }
+        }
+        return -1;
+    }
+  ```
+  
+  79.单词搜索
+  
+  类似岛屿问题，但判断出界问题时用&&要判断多个条件会导致超时？改用||一个不满足就叉出去了。也无法先试探后判断，四个方向不循环会导致代码量增大
+  
+  
+  ```c++
+      bool exist(vector<vector<char>>& board, string word) {
+        for(int i=0;i<board.size();i++){
+            for(int j=0;j<board[i].size();j++){
+                if(dfs(board,word,i,j,0)) return true;
+            }
+        }
+        return false;
+    }
+    vector<int> dx={-1,0,1,0},dy={0,-1,0,1};
+    bool dfs(vector<vector<char>>& board,string word,int x,int y,int u){
+        if(board[x][y]!=word[u]) return false;
+        if(u==word.size()-1) return true;
+        char t=board[x][y];
+        board[x][y]='.';
+
+        for(int i=0;i<4;i++){
+            int a=x+dx[i],b=y+dy[i];
+            if(a<0 || a>=board.size() || b<0 || b>=board[0].size() || board[a][b]=='.'){
+                continue;
+            }
+            if(dfs(board,word,a,b,u+1)) return true;
+        }
+        board[x][y]=t;
+        return false;
+    }
+  ```
+  
+  106.中序和后序构造二叉树
+  
+  从后续的最后获取root，查找到哈希表中对应中序的index，再根据index划分左右区间，先右后左恢复二叉树！
+  
+  ```c++
+  int postIndex;
+    unordered_map<int,int> indexMap;
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        postIndex=(int)postorder.size()-1;
+        //indexMap[i]=inorder[i]行不通
+        for(int i=0;i<inorder.size();i++){
+            indexMap[inorder[i]]=i;
+        }
+    
+        return helper(0,(int)inorder.size()-1,inorder,postorder);
+    }
+
+    TreeNode* helper(int left,int right,vector<int>& inorder,vector<int>& postorder){
+        if(left>right){
+            return nullptr;
+        }
+        int rootVal=postorder[postIndex];
+        TreeNode* root=new TreeNode(rootVal);
+        int index=indexMap[rootVal];
+        postIndex--;
+        //注意这里有需要先创建右子树，再创建左子树的依赖关系。
+        root->right=helper(index+1,right,inorder,postorder);
+        root->left=helper(left,index-1,inorder,postorder);
+        return root;
+    }
+  ```
   
   
