@@ -330,9 +330,10 @@
       root->left=helper(left,index-1,inorder,postorder);
       return root;
   }
+  
   ```
   
-  # 2022-5-10 二分法，适用于有序数组
+  # 2022-5-10  二分法
   
   704.二分查找 
   
