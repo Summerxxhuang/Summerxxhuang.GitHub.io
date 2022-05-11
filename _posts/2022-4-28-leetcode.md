@@ -574,8 +574,10 @@
   ```
   
   法三：我愿称之为正统二维二分！其实是按中心点行列为界一分为四，代码copy自
+  
   https://leetcode.cn/problems/search-a-2d-matrix-ii/solution/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by-5-4/
   
+  （虽然但是代码和时空复杂度都太高了）
   ```c++
   bool binary_search_matrix(vector<vector<int>>& matrix, int target, int m_1, int m_2, int n_1, int n_2) {
       // check border
@@ -609,4 +611,56 @@
         return binary_search_matrix(matrix, target, 0, matrix.size() - 1, 0, matrix[0].size() - 1);
     }
   
+  ```
+  
+  378. 有序矩阵中第 K 小的元素
+  
+  承接自240，从左下或者右上开始走
+  
+  1.初始位置在matrix[n-1][0]（即左下角）；
+
+  2.设当前位置为matrix[i][j]matrix[i][j]。若matrix[i][j]≤mid，则将当前所在列的不大于mid的数的数量（即i+1）累加到答案中，并向右移动，否则向上移动；
+
+  3.不断移动直到走出格子为止。
+
+  
+  不妨假设答案为x，那么可以知道l≤x≤r，这样就确定了二分查找的上下界。
+
+  每次对于「猜测」的答案mid，计算矩阵中有多少数不大于mid ：
+
+    如果数量不少于k，那么说明最终答案 xx 不大于 midmid；
+
+    如果数量少于k，那么说明最终答案x大于mid。
+
+  ```c++
+  bool check(vector<vector<int>>& matrix, int mid, int k, int n) {
+        int i = n - 1;
+        int j = 0;
+        int num = 0;
+        while (i >= 0 && j < n) {
+            if (matrix[i][j] <= mid) {
+                num += i + 1;
+                j++;
+            } else {
+                i--;
+            }
+        }
+        return num >= k;
+    }
+
+    int kthSmallest(vector<vector<int>>& matrix, int k) {
+        int n = matrix.size();
+        int left = matrix[0][0];
+        int right = matrix[n - 1][n - 1];
+        while (left < right) {
+            int mid = left + ((right - left) >> 1);
+            if (check(matrix, mid, k, n)) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+
   ```
