@@ -438,6 +438,8 @@
   ```
   
   
+  # 2022-5-11 二分法(2) 旋转数组
+  
   189.轮转数组
   
   三次反转，第一次反转全部，第二次反转[0,k]，第三次反转[k,n]
@@ -448,6 +450,50 @@
       reverse(nums.begin(),nums.end());
       reverse(nums.begin(),nums.begin()+k);
       reverse(nums.begin()+k,nums.end());
+  }
+  ```
+  
+  153.寻找旋转排序数组中的最小值
+  
+  ```c++
+    int findMin(vector<int>& nums) {
+      if(nums.size()==1) return nums[0];
+      int left=0,right=nums.size()-1;
+      int minNum=INT_MAX;
+      while(left<=right){
+          int mid=left+(right-left)/2;
+          if(nums[left]<=nums[mid]){//左边有序
+              minNum=min(minNum,nums[left]);
+              left=mid+1;
+          }else{//右边有序
+              minNum=min(minNum,nums[mid+1]);
+              right=mid;
+          }
+      }
+      return minNum;
+  }
+  ```
+  
+  154.寻找旋转排序数组中的最小值2
+  
+  ```c++
+    int findMin(vector<int>& nums) {
+      int left=0,right=nums.size()-1;
+      int minNum=nums[0];
+      while(left<=right){
+          int mid=left+(right-left)/2;
+          if(nums[left]==nums[mid]){
+              minNum=min(minNum,nums[left]);
+              left++;
+          }else if(nums[left]<nums[mid]){//左边有序
+              minNum=min(minNum,nums[left]);
+              left=mid+1;
+          }else{//右边有序
+              minNum=min(minNum,nums[mid]);
+              right=mid;
+          }
+      }
+      return minNum;
   }
   ```
   
