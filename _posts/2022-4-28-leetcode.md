@@ -440,6 +440,8 @@
   
   189.轮转数组
   
+  三次反转，第一次反转全部，第二次反转[0,k]，第三次反转[k,n]
+  
   ```c++
     void rotate(vector<int>& nums, int k) {
       k=k % nums.size();
