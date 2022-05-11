@@ -572,3 +572,41 @@
     }
   
   ```
+  
+  法三：我愿称之为正统二维二分！其实是按中心点行列为界一分为四，代码copy自
+  https://leetcode.cn/problems/search-a-2d-matrix-ii/solution/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by-5-4/
+  
+  ```c++
+  bool binary_search_matrix(vector<vector<int>>& matrix, int target, int m_1, int m_2, int n_1, int n_2) {
+      // check border
+      if (m_1 > m_2 || n_1 > n_2) {
+        return false;
+      }
+      if (m_2 - m_1 <= 1 && n_2 - n_1 <= 1) {
+        return target == matrix[m_1][n_1] || 
+          target == matrix[m_2][n_1] || 
+          target == matrix[m_1][n_2] ||
+          target == matrix[m_2][n_2];
+      }
+
+      int m_mid = (m_1 + m_2) >> 1, n_mid = (n_1 + n_2) >> 1;
+      if (target == matrix[m_mid][n_mid]) {
+        return true;
+      }
+      else if (target < matrix[m_mid][n_mid]) {
+        return binary_search_matrix(matrix, target, m_1, m_mid - 1, n_mid + 1, n_2) ||//up-right 
+          binary_search_matrix(matrix, target, m_mid + 1, m_2, n_1, n_mid - 1) ||//down-left
+          binary_search_matrix(matrix, target, m_1, m_mid, n_1, n_mid); //up-left
+      }
+      else {//target > matrix[m_mid][n_mid]
+        return binary_search_matrix(matrix, target, m_1, m_mid - 1, n_mid + 1, n_2) ||//up-right 
+          binary_search_matrix(matrix, target, m_mid + 1, m_2, n_1, n_mid - 1) ||//down-left
+          binary_search_matrix(matrix, target, m_mid, m_2, n_mid, n_2); //down-right
+      }
+    }
+  public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        return binary_search_matrix(matrix, target, 0, matrix.size() - 1, 0, matrix[0].size() - 1);
+    }
+  
+  ```
