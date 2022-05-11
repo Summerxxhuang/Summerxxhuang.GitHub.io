@@ -497,3 +497,78 @@
   }
   ```
   
+  240. 搜索二维矩阵 II
+  
+  法一：一行一行的进行二分查找即可。
+
+  此外，结合有序的性质，一些情况可以提前结束。
+
+  比如某一行的第一个元素大于了 target ，当前行和后边的所有行都不用考虑了，直接返回 false。
+
+  某一行的最后一个元素小于了 target ，当前行就不用考虑了，换下一行。
+
+  ```c++
+  
+  //这版尚未跑通，没想出来vector<vector<int>> matrix[i]怎么传参进去
+  bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        for(int i=0;i<matrix.size();i++){
+            if(matrix[i][0]>target){
+                break;
+            }
+            if(matrix[i][matrix[0].size()-1]<target){
+                continue;
+            }
+            if(binarySearch(matrix[i],target)==1) return true;
+        }
+        return false;
+    }
+
+    bool binarySearch(vector<int>& nums,int target){
+        int left=0,right=nums[].size()-1;
+        while(left<=right){
+            int mid=left+(right-left)/2;
+            if(nums[][mid]==target){
+                return true;
+            }else if(nums[][mid]<target){
+                left=mid+1;
+            }else{
+                right=mid;
+            }
+        }
+        return false;
+    }
+  
+  
+  ```
+  
+  法二：从右上角出发开始遍历。向左数字会变小，向下数字会变大，有点和二分查找树相似。二分查找树的话，是向左数字变小，向右数字变大。
+
+  所以我们可以把 target 和当前值比较。
+
+  如果 target 的值大于当前值，那么就向下走。
+
+  如果 target 的值小于当前值，那么就向左走。
+
+  如果相等的话，直接返回 true 。
+
+  ```c++
+  
+  bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        if(matrix.size()==0 || matrix[0].size()==0){
+            return false;
+        }
+        int row=0,colomn=matrix[0].size()-1;
+        while(colomn>=0 && row<matrix.size()){
+            int temp=matrix[row][colomn];
+            if(temp==target){
+                return true;
+            }else if(temp>target){
+                colomn--;
+            }else{
+                row++;
+            }
+        }
+        return false;
+    }
+  
+  ```
